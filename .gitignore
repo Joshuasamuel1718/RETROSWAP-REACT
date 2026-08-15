@@ -1,0 +1,17 @@
+# Frontend
+Frontend/node_modules/
+Frontend/dist/
+
+# Backend secrets
+RetroSwap-Backend/src/main/resources/application.properties
+
+# Environment files
+.env
+*.env
+
+# IDE
+.idea/
+*.iml
+
+# Build files
+RetroSwap-Backend/target/
