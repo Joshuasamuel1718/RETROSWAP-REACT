@@ -14,7 +14,7 @@ function Navbar() {
   // CATEGORY
   const handleCategoryChange = (categoryId) => {
 
-    navigate('/products', {
+    navigate('/home', {
       state: {
         category: categoryId
       }
@@ -78,7 +78,7 @@ const handleSearch = (e) => {
 
         <div
           className="logo-container"
-          onClick={() => navigate('/Home')}
+          onClick={() => navigate('/home')}
         >
 
           <img
