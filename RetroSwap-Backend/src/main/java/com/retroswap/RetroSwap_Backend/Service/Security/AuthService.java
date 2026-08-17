@@ -19,10 +19,19 @@ public class AuthService {
 
 
 
-    public User register(User users)
+    public String register(User users)
     {
+         if(userRepo.findByEmail(users.getEmail())!=null)
+         {
+             return "Email already exist";
+         }
+         if(userRepo.existsByMobileno(users.getMobileno()))
+         {
+             return "Mobileno already exist";
+         }
         users.setPassword(encoder.encode(users.getPassword()));
-        return userRepo.save(users);
+         userRepo.save(users);
+        return "Success";
     }
     @Autowired
     AuthenticationManager manager;

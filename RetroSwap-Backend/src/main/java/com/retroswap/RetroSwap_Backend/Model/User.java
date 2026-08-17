@@ -1,17 +1,24 @@
 package com.retroswap.RetroSwap_Backend.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 private long id;
 private String name;
+    @Column(unique = true)
+    @Email(message = "Invalid email format")
 private String email;
+    private String password;
+
+    @Pattern(
+            regexp = "^[0-9]{10}$",
+            message = "Mobile number must be exactly 10 digits")
+    @Column(unique = true, nullable = false)
+    private String mobileno;
 
     public void setId(long id) {
         this.id = id;
@@ -53,6 +60,5 @@ private String email;
         return mobileno;
     }
 
-    private String password;
-private String mobileno;
+
 }

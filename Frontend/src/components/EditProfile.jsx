@@ -4,9 +4,9 @@ import './EditProfile.css';
 
 function EditProfile({ user, onClose }) {
 
-    const [username, setUsername] = useState(user.username);
+    const [username, setUsername] = useState(user.name);
     const [email, setEmail] = useState(user.email);
-    const [phone, setPhone] = useState(user.phone);
+    const [phone, setPhone] = useState(user.mobileno);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -73,11 +73,11 @@ function EditProfile({ user, onClose }) {
                 <div className="edit-field">
                     <label>Phone</label>
 
-                    <input
-                        type="text"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
+                 <input 
+    type="text" 
+    value={phone} 
+    disabled
+/>
                 </div>
 
                 <div className="edit-field">
