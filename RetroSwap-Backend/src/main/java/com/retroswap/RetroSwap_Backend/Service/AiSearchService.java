@@ -29,7 +29,7 @@ public class AiSearchService {
     }
 
     public List<Product> understandQuery(String query) {
-
+        System.out.println(query);
         String prompt = """
                 Convert the user's product search into JSON.
 
@@ -59,7 +59,7 @@ public class AiSearchService {
 
         String jsonBody = """
                 {
-                  "model": "llama-3.3-70b-versatile",
+                  "model": "openai/gpt-oss-20b",
                   "messages": [
                     {
                       "role": "user",
@@ -89,7 +89,8 @@ public class AiSearchService {
             ObjectMapper mapper = new ObjectMapper();
 
             JsonNode root = mapper.readTree(response.body());
-
+            System.out.println("STATUS: " + response.statusCode());
+            System.out.println("BODY: " + response.body());
             String text = root
                     .get("choices")
                     .get(0)
@@ -108,72 +109,111 @@ public class AiSearchService {
     }
     @Autowired
     Product_repo productRepo;
-    public List<Product> result(String json)
-    {try {
-        ObjectMapper mapper = new ObjectMapper();
-        ProductSearchRequest filter = mapper.readValue(json, ProductSearchRequest.class);
-        Specification<Product> spec = (root, query, cb) -> null;
-        boolean noFilters =
-                filter.getKeyword() == null &&
-                        filter.getCategory() == null &&
-                        filter.getColor() == null &&
-                        filter.getMinPrice() == null &&
-                        filter.getMaxPrice() == null;
+    public List<Product> result(String json) {
 
-        if (noFilters) {
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            ProductSearchRequest filter =
+                    mapper.readValue(json, ProductSearchRequest.class);
+
+            System.out.println(filter);
+
+            Specification<Product> spec = (root, query, cb) -> null;
+
+            boolean noFilters =
+                    filter.getKeyword() == null &&
+                            filter.getCategory() == null &&
+                            filter.getColor() == null &&
+                            filter.getMinPrice() == null &&
+                            filter.getMaxPrice() == null;
+
+            if (noFilters) {
+                return List.of();
+            }
+
+
+            // CATEGORY has priority over KEYWORD
+            if (filter.getCategory() != null) {
+
+                spec = spec.and((root, query, cb) ->
+                        cb.equal(
+                                root.get("category"),
+                                filter.getCategory()
+                        )
+                );
+
+            }
+            else if (filter.getKeyword() != null) {
+
+                String keyword =
+                        "%" + filter.getKeyword().toLowerCase() + "%";
+
+                spec = spec.and((root, query, cb) ->
+                        cb.or(
+                                cb.like(
+                                        cb.lower(root.get("name")),
+                                        keyword
+                                ),
+                                cb.like(
+                                        cb.lower(root.get("description")),
+                                        keyword
+                                ),
+                                cb.like(
+                                        cb.lower(root.get("details")),
+                                        keyword
+                                )
+                        )
+                );
+            }
+
+
+            // COLOR
+            if (filter.getColor() != null) {
+
+                spec = spec.and((root, query, cb) ->
+                        cb.equal(
+                                cb.lower(root.get("color")),
+                                filter.getColor().toLowerCase()
+                        )
+                );
+            }
+
+
+            // MINIMUM PRICE
+            if (filter.getMinPrice() != null) {
+
+                spec = spec.and((root, query, cb) ->
+                        cb.greaterThanOrEqualTo(
+                                root.get("price"),
+                                filter.getMinPrice()
+                        )
+                );
+            }
+
+
+            // MAXIMUM PRICE
+            if (filter.getMaxPrice() != null) {
+
+                spec = spec.and((root, query, cb) ->
+                        cb.lessThanOrEqualTo(
+                                root.get("price"),
+                                filter.getMaxPrice()
+                        )
+                );
+            }
+
+
+            return productRepo.findAll(spec);
+
+        }
+        catch (Exception e) {
+
+            e.printStackTrace();
+
             return List.of();
         }
-        if (filter.getKeyword() != null) {
-            String keyword = "%" + filter.getKeyword().toLowerCase() + "%";
-
-            spec = spec.and((root, query, cb) ->
-                    cb.or(
-                            cb.like(cb.lower(root.get("name")), keyword),
-                            cb.like(cb.lower(root.get("description")), keyword),
-                            cb.like(cb.lower(root.get("details")), keyword)
-                    )
-            );
-        }
-        if (filter.getCategory() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get("category"), filter.getCategory())
-            );
-        }
-
-        if (filter.getColor() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.equal(
-                            cb.lower(root.get("color")),
-                            filter.getColor().toLowerCase()
-                    )
-            );
-        }
-
-        if (filter.getMinPrice() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.greaterThanOrEqualTo(
-                            root.get("price"),
-                            filter.getMinPrice()
-                    )
-            );
-        }
-
-        if (filter.getMaxPrice() != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.lessThanOrEqualTo(
-                            root.get("price"),
-                            filter.getMaxPrice()
-                    )
-            );
-        }
-
-
-        return productRepo.findAll(spec);
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-        return List.of();
-    }
     }
 
     private String toJsonString(String text) {

@@ -19,8 +19,6 @@ public class AiSearchController {
     {
         return aiSearchService.understandQuery(query);
 
-
-
     }
 
 }

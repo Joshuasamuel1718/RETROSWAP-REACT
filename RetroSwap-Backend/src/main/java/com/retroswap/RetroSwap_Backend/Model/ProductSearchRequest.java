@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProductSearchRequest {
     private String keyword;
-    private Integer category;
+    private Byte category;
     private String color;
     private Double maxPrice;
     private Double minPrice;
