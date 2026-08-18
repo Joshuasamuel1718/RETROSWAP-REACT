@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
-@CrossOrigin()
+@CrossOrigin(origins = "https://retroswap.onrender.com")
 @RequestMapping("/retroswap")
 @RestController
 public class AiSearchController {

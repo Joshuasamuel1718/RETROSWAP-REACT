@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://retroswap.onrender.com")
 @RequestMapping("/retroswap")
 @RestController
 public class Category_Controller {

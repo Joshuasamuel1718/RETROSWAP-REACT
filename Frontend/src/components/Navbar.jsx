@@ -2,7 +2,7 @@ import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-import RetroshopLogo from '../assets/Retroshop-Logo.png'
+import RetroshopLogo from '../assets/Retroswaplogo.png'
 import sellLogo from '../assets/sellLogo.png'
 import userLogo from '../assets/userLogo.png'
 import cartLogo from '../assets/cartLogo.jpg'
@@ -82,7 +82,7 @@ const handleSearch = (e) => {
         >
 
           <img
-            src={RetroshopLogo}
+            src={RetroshopLogo}n
             alt="RetroSwap"
             className="logo-img"
           />
