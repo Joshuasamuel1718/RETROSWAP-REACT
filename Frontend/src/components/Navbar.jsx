@@ -2,7 +2,7 @@ import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-import RetroshopLogo from '../assets/Retroswaplogo.png'
+import RetroshopLogo from '../assets/RetroswapLogo.png'
 import sellLogo from '../assets/sellLogo.png'
 import userLogo from '../assets/userLogo.png'
 import cartLogo from '../assets/cartLogo.jpg'
