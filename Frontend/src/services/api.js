@@ -28,8 +28,10 @@ api.interceptors.response.use(
       }
     }
     else if (error.response?.status === 403) {
+        if (!error.config.url.includes("/login")) {
         localStorage.removeItem("token");
         window.location.href = "/home";
+    }
     }
 
     return Promise.reject(error);
