@@ -5,7 +5,11 @@ RetroSwap is a full-stack second-hand marketplace application where users can **
 The application consists of a **React frontend** and a **Spring Boot REST API backend**. The backend provides APIs for authentication, product management, search and filtering, cart management, orders, user profiles, categories, and AI-assisted product search.
 
 ---
+## 🌐 Live Demo
 
+**Live Application:** https://retroswap.onrender.com
+
+The application is deployed using **Render**, with the backend containerized using **Docker** and the database hosted remotely.
 ## 🚀 Features
 
 ### 👤 Authentication & User Management
@@ -90,6 +94,11 @@ The application consists of a **React frontend** and a **Spring Boot REST API ba
 * Git
 * GitHub
 
+## Deployment
+
+* Docker
+* Render
+* Cloud-hosted MySQL
 ---
 
 # 🏗️ System Architecture
@@ -805,6 +814,8 @@ The objective of RetroSwap is to build a real-world second-hand marketplace whil
 * Multipart file upload
 * Exception handling
 * Database persistence
+* Docker containerization
+* Cloud deployment
 
 ---
 
