@@ -127,9 +127,9 @@ formData.append(
 />
 
 <textarea
-  name="description"
-  placeholder="Description"
-  value={product.description}
+  name="details"
+  placeholder="Product Details"
+  value={product.details}
   onChange={handleChange}
   required
 />
