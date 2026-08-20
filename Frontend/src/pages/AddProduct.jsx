@@ -106,21 +106,29 @@ formData.append(
             required
           />
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={product.description}
-            onChange={handleChange}
-            required
-          />
+         <textarea
+  name="description"
+  placeholder="Description (max 255 characters)"
+  value={product.description}
+  onChange={handleChange}
+  maxLength={255}
+  required
+/>
+<p>
+  {product.description.length}/255
+</p>
 
-          <textarea
-            name="details"
-            placeholder="Product Details"
-            value={product.details}
-            onChange={handleChange}
-            required
-          />
+         <textarea
+  name="details"
+  placeholder="Product Details (max 255 characters)"
+  value={product.details}
+  onChange={handleChange}
+  maxLength={255}
+  required
+/>
+<p>
+  {product.details.length}/255
+</p>
 
           <select
             name="category"
