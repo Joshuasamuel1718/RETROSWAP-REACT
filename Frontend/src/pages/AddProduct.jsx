@@ -18,19 +18,31 @@ function AddProduct() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
+const handleChange = (e) => {
+  const { name, value } = e.target
 
-    setProduct({
-      ...product,
-      [name]:
-        name === 'category' ||
-        name === 'quantity' ||
-        name === 'price'
-          ? Number(value)
-          : value
-    })
+  if (name === 'description' && value.length > 255) {
+    setError('Description cannot exceed 255 characters')
+    return
   }
+
+  if (name === 'details' && value.length > 255) {
+    setError('Product details cannot exceed 255 characters')
+    return
+  }
+
+  setError('')
+
+  setProduct({
+    ...product,
+    [name]:
+      name === 'category' ||
+      name === 'quantity' ||
+      name === 'price'
+        ? Number(value)
+        : value
+  })
+}
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -106,29 +118,21 @@ formData.append(
             required
           />
 
-         <textarea
+     <textarea
   name="description"
-  placeholder="Description (max 255 characters)"
+  placeholder="Description"
   value={product.description}
   onChange={handleChange}
-  maxLength={255}
   required
 />
-<p>
-  {product.description.length}/255
-</p>
 
-         <textarea
-  name="details"
-  placeholder="Product Details (max 255 characters)"
-  value={product.details}
+<textarea
+  name="description"
+  placeholder="Description"
+  value={product.description}
   onChange={handleChange}
-  maxLength={255}
   required
 />
-<p>
-  {product.details.length}/255
-</p>
 
           <select
             name="category"
