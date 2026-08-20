@@ -27,6 +27,10 @@ api.interceptors.response.use(
         window.location.href = "/login";
       }
     }
+    else if (error.response?.status === 403) {
+        localStorage.removeItem("token");
+        window.location.href = "/home";
+    }
 
     return Promise.reject(error);
   }
